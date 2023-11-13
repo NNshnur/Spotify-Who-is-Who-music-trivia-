@@ -99,3 +99,4 @@ export class HomeComponent implements OnInit {
     this.selectedGenre = savedGenre ? savedGenre : this.selectedGenre;
   }
 }
+

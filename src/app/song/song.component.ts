@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Song } from '../model';
+
 
 @Component({
   selector: 'app-song',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SongComponent implements OnInit {
 
+  @Input() song: Song = { title: '', artist: '' };
+
+
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
