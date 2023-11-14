@@ -10,8 +10,10 @@ import { Song } from '../model';
 export class GameComponent implements OnInit {
 
  currSongDetails: Song = {
+  id: 1, 
   title:'Song Tite',
-  artist:'Artist Name'
+  artist:'Artist Name',
+  url:'someUrl'
  }
  currScore: number = 0;
 
@@ -20,14 +22,9 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  playSong(songNum : number) : void {
-    console.log("Song is playing ${songNum}")
-  }
+  selectBtnOption() : void {}
 
-  selectOption(optionNum : number) : void {
-    console.log ("option selected - ${optionNum}")
-  }
+  playSong() : void {}
 
-  loadSong() : void {}
 
 }

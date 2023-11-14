@@ -6,6 +6,8 @@ const AUTH_ENDPOINT =
   "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
 const TOKEN_KEY = "whos-who-access-token";
 
+const PRIVATE_TOKEN = 'BQDKQ5QpypvCgIQqeJ9FFOv--IAWA9CYBub63Uv8SmBgWuzd4HnnQ3kotenji1jWLbm6pLTfsBlVnqv9DB6J76Sor9L8Kk1wf72ZZo89e4G2_k01GOo'
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -31,8 +33,9 @@ export class HomeComponent implements OnInit {
       if (storedToken.expiration > Date.now()) {
         console.log("Token found in localstorage");
         this.authLoading = false;
-        this.token = storedToken.value;
-        this.loadGenres(storedToken.value);
+        // this.token = storedToken.value;
+        this.token = PRIVATE_TOKEN
+        this.loadGenres(PRIVATE_TOKEN);
         return;
       }
     }
@@ -44,8 +47,8 @@ export class HomeComponent implements OnInit {
       };
       localStorage.setItem(TOKEN_KEY, JSON.stringify(newToken));
       this.authLoading = false;
-      this.token = newToken.value;
-      this.loadGenres(newToken.value);
+      this.token = PRIVATE_TOKEN;
+      this.loadGenres(PRIVATE_TOKEN);
     });
   }
 

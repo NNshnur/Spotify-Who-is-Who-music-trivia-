@@ -18,12 +18,12 @@ export class ResultComponent implements OnInit {
 
   }
 
-  selectBtnOption(option : string) : void {
-    if(option === 'Home') {
-      console.log("Home btn was pressed")
-    } else if (option === 'Play Again') {
-      console.log("Play again was pressed")
-    }
+  selectBtnOption() : void {
+    // if(option === 'Home') {
+    //   console.log("Home btn was pressed")
+    // } else if (option === 'Play Again') {
+    //   console.log("Play again was pressed")
+    // }
   }
 
 }

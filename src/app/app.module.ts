@@ -9,7 +9,10 @@ import { GameComponent } from './game/game.component';
 import { SongComponent } from './song/song.component';
 import { ResultComponent } from './result/result.component';
 
-const routes: Routes = [{ path: "", component: HomeComponent }];
+const routes: Routes = [
+  { path: "", component: HomeComponent },
+  { path: "game", component: GameComponent },
+  { path: "result", component: ResultComponent }]
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, GameComponent, SongComponent, ResultComponent],

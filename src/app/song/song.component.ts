@@ -9,11 +9,17 @@ import { Song } from '../model';
 })
 export class SongComponent implements OnInit {
 
-  @Input() song: Song = { title: '', artist: '' };
+  @Input() song: Song = { id: 1, title: '', artist: '', url : '' };
 
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  playSong() : void {}
+
+  loadSong() : void {}
+
+
 }
