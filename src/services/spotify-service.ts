@@ -5,39 +5,43 @@ import fetchFromSpotify from "../services/api";
  *
  * @param  {string} token       The auth token
  * @param  {string} genre       The genre to fetch an artist for
+ * @param  {string} market      The market to fetch an artist for
  *
- * @return {object}             The response data
+ * @return {object}             A single artist object
  */
-export const getArtist = async (token: string, genre: string) => {
-  const response = await fetchFromSpotify({
-    token: token,
-    endpoint: "recommendations/",
-    params: { seed_genres: genre, limit: 1, market: "US" },
-  });
-  return response.tracks[0].artists[0];
+export const getArtist = async (
+  token: string,
+  genre: string,
+  market: string
+) => {
+  const response = await getArtists(token, genre, 1, market);
+  return response[0];
 };
 
 /**
- * Requests a single artist
+ * Requests a list of artists
  *
  * @param  {string} token       The auth token
- * @param  {string} genre       The genre to fetch an artist for
+ * @param  {string} genre       The genre to fetch a list of artists for
+ * @param  {number} amount      The number of artists to fetch
+ * @param  {string} market      The market to fetch an artist for
  *
- * @return {object}             The response data
+ * @return {object}             A list of artist objects
  */
 export const getArtists = async (
   token: string,
   genre: string,
-  amount: number
+  amount: number,
+  market: string
 ) => {
   const response = await fetchFromSpotify({
     token: token,
     endpoint: "recommendations/",
-    params: { seed_genres: genre, limit: amount },
+    params: { seed_genres: genre, limit: amount, market: market },
   });
-  let artists = response.tracks[0].artists[0];
-  for (let i = 1; i < amount; i++) {
-    artists = { ...artists, ...response.tracks[i].artists[0] };
+  let artists: any = [];
+  for (let i = 0; i < amount; i++) {
+    artists.push(response.tracks[i].artists[0]);
   }
   return artists;
 };
@@ -48,7 +52,7 @@ export const getArtists = async (
  * @param  {string} token       The auth token
  * @param  {string} artistId    The artist id to fetch related artists for
  *
- * @return {object}             The response data
+ * @return {object}             A list of related artist objects
  */
 export const getRelatedArtists = async (token: string, artistId: string) => {
   const response = await fetchFromSpotify({
@@ -63,14 +67,31 @@ export const getRelatedArtists = async (token: string, artistId: string) => {
  *
  * @param  {string} token       The auth token
  * @param  {string} artistId    The artist id to fetch songs for
+ * @param  {string} artistId    The market to fetch songs for
  *
- * @return {object}             The response data
+ * @return {object}             A list of track objects for an artist related to their top songs
  */
-export const getSongs = async (token: string, artistId: string) => {
+export const getSongs = async (
+  token: string,
+  artistId: string,
+  market: string
+) => {
   const response = await fetchFromSpotify({
     token: token,
     endpoint: "artists/" + artistId + "/top-tracks/",
-    params: { market: "US" },
+    params: { market: market },
   });
   return response;
+};
+
+/**
+ * Retrieves a song's preview url
+ *
+ * @param  {object} trackList      The array of tracks
+ * @param  {number} trackNumber    The index of the track to fetch the url for
+ *
+ * @return {string}                The preview url - this can be null
+ */
+export const getPreviewUrl = (trackList: any, trackNumber: number) => {
+  return trackList.tracks[trackNumber].preview_url;
 };
