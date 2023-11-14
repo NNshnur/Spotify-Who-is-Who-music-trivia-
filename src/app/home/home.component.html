@@ -1,10 +1,46 @@
 <div *ngIf="authLoading || configLoading">Loading...</div>
 <div *ngIf="!authLoading && !configLoading">
-  Genre:
+  Genre
   <select [(ngModel)]="selectedGenre" (ngModelChange)="setGenre($event)">
-    <option [value]=""></option>
+    <option value="" disabled>Genre</option>
     <option [value]="genre" *ngFor="let genre of genres">
       {{ genre }}
     </option>
   </select>
+
+  <br />
+
+  Artists
+  <select
+    [(ngModel)]="numberOfArtists"
+    (ngModelChange)="setNumberOfArtists($event)"
+  >
+    <option value="" disabled>Number of Artists</option>
+    <option
+      [value]="i + 2"
+      *ngFor="let item of [].constructor(3); let i = index"
+    >
+      {{ i + 2 }}
+    </option>
+  </select>
+
+  <br />
+
+  Songs
+  <select
+    [(ngModel)]="numberOfSongs"
+    (ngModelChange)="setNumberOfSongs($event)"
+  >
+    <option value="" disabled>Number of Songs</option>
+    <option
+      [value]="i + 1"
+      *ngFor="let item of [].constructor(3); let i = index"
+    >
+      {{ i + 1 }}
+    </option>
+  </select>
+
+  <br />
+
+  <button (click)="submitAndStartGame()">Submit</button>
 </div>
