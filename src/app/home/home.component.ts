@@ -88,7 +88,14 @@ export class HomeComponent implements OnInit {
 
   startGame() {
     // TODO: replace this with an actual url
-    this.router.navigateByUrl("");
+    // this.router.navigateByUrl("");
+    this.router.navigate(['/game'], {
+      queryParams: {
+        artists: this.numberOfArtists,
+        songs: this.numberOfSongs,
+        genre: this.selectedGenre
+      }
+    })
   }
 
   retrieveSettingsFromLocalStorage() {
