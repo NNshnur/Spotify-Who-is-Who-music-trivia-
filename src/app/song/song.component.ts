@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Song } from '../model';
+import { Howl } from 'howler';
 
 
 @Component({
@@ -11,13 +12,35 @@ export class SongComponent implements OnInit {
 
   @Input() song: Song = { id: 1, title: '', artist: '', url : '' };
 
+  sound: Howl | undefined;
+
 
   constructor() { }
 
   ngOnInit(): void {
+    this.sound = new Howl({
+      src: [this.song.url],
+      format: ['mp3']
+    });
   }
 
-  playSong() : void {}
+  playSong() : void {
+    if(this.sound) {
+      this.sound.play();
+    }
+  }
+
+  pauseSong() : void {
+    if(this.sound && this.sound.playing()) {
+      this.sound.pause();
+    }
+  }
+
+  stopSong() : void {
+    if(this.sound) {
+      this.sound.stop();
+    }
+  }
 
   loadSong() : void {}
 
