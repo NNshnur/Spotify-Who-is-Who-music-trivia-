@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SongComponent } from '../song/song.component';
 import { getArtist, getSongs } from 'src/services/spotify-service';
 import { Howl } from 'howler'
 
@@ -16,9 +15,8 @@ export class GameComponent implements OnInit {
   numberOfArtists: number = 2; 
   numberOfSongs: number = 1;
   selectedGenre: string = '';
-  spotifyToken ='BQBwwVwoum6MJ-EdKjIwtkjk-19WRD2OKtSRgxI-GaH_KBt3DbNL3tp65jPoUGW_uBIyQyh0AOvkdV3C5AWGX0Sz3RjHh4G5oYWH3_vMJiZKZzmi6NE';
+  spotifyToken ='BQAyM7GaTbMG-eR1WMd6EAfclQvBj1MYhamMJcFIpjFGshZsWvFKnsC4S3Thc-zmH02w0fOFBFNkXMgEZRgtLm8ltXx1IcoyIiMih8IUeKku1BoO2-o';
 
- // @ViewChild(SongComponent) songComponent!: SongComponent;
   songs: any[] = [];
   selectedArtistId: any;
   sounds: any[] = [];
@@ -44,7 +42,6 @@ export class GameComponent implements OnInit {
 
   async fetchSongs(): Promise<void> {
     try {
-      // get the artist details and get the songs based on the artist 
       const artist = await getArtist(this.spotifyToken, this.selectedGenre, 'US');
       this.selectedArtistId = artist.id; 
 
@@ -52,9 +49,10 @@ export class GameComponent implements OnInit {
       this.songs = songs.tracks; 
     } catch (error) {
       console.error('Error fetching songs:', error);
-      // will hanle later, just want to make sure first tha it works
+      // will hanle later, just want to make sure first that it works
     }
   }
+
 
   generateSongButtons(numberOfSongs: number) {
     const songContainer = document.getElementById('songContainer');
@@ -71,19 +69,34 @@ export class GameComponent implements OnInit {
     }
   }
 
-
-
-   generateArtistButtons(numberOfArtists: number) {
+  async generateArtistButtons(numberOfArtists: number) {
     const artistContainer = document.getElementById('artistContainer');
     if (artistContainer) {
       artistContainer.innerHTML = '';
+      const artists: string[] = [];
+  
       for (let i = 1; i <= numberOfArtists; i++) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'btn btn-success me-2';
-        button.textContent = `Artist ${i}`;
-        button.addEventListener('click', () => this.selectBtnOption());
-        artistContainer.appendChild(button);
+        if (i === 1 && this.songs.length > 0) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn btn-success me-2';
+          button.textContent = this.songs[0].artists[0].name;
+          button.addEventListener('click', () => this.selectBtnOption());
+          artistContainer.appendChild(button);
+  
+          artists.push(this.songs[0].artists[0].name);
+        } else {
+        
+          const randomArtist = 'Random Artist ' + i;
+          artists.push(randomArtist);
+  
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn btn-success me-2';
+          button.textContent = randomArtist;
+          button.addEventListener('click', () => this.selectBtnOption());
+          artistContainer.appendChild(button);
+        }
       }
     }
   }
@@ -99,6 +112,12 @@ export class GameComponent implements OnInit {
         format: ['mp3']
           
       });
+
+      this.sounds[index].on('play', () => {
+        const currentSong = this.songs[index]; // Get the currently playing song
+        console.log(`Now playing: ${currentSong.name} by ${currentSong.artists[0].name}`);
+      });
+
       this.sounds[index].play();
     }
   }
