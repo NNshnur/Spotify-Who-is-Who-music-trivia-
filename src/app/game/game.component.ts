@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
 
   async setupGameLayout() {
     await this.setUpArtists();
-    await this.fetchSongs(0);
+    await this.fetchSongs();
     this.generateSongButtons(this.numberOfSongs);
     this.generateArtistButtons(this.numberOfArtists);
   }
@@ -58,9 +58,9 @@ export class GameComponent implements OnInit {
     console.log(this.artists);
   };
 
-  async fetchSongs(artistId: number = 0): Promise<void> {
+  async fetchSongs(): Promise<void> {
     try {
-      this.selectedArtistId = this.artists[artistId].id;
+      this.selectedArtistId = this.artists[0].id;
 
       const songs = await getSongs(
         this.spotifyToken,
@@ -75,6 +75,8 @@ export class GameComponent implements OnInit {
     if (!this.validateSongUrls()) {
       this.setupGameLayout();
     }
+    this.removeSongsWithoutUrl();
+    console.log(this.songs);
   }
 
   validateSongUrls = () => {
@@ -95,14 +97,17 @@ export class GameComponent implements OnInit {
   };
 
   generateSongButtons(numberOfSongs: number) {
+    console.log(this.songs);
     const songContainer = document.getElementById("songContainer");
     if (songContainer) {
       songContainer.innerHTML = "";
-      for (let i = 1; i <= numberOfSongs; i++) {
+      for (let i = 0; i < numberOfSongs; i++) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "btn btn-secondary me-2";
-        button.innerHTML = `<i class="bi bi-play-circle-fill"></i> Song ${i}`;
+        button.innerHTML = `<i class="bi bi-play-circle-fill"></i> Song ${
+          i + 1
+        }`;
         button.addEventListener("click", () => this.onSongButtonClick(i));
         songContainer.appendChild(button);
       }
