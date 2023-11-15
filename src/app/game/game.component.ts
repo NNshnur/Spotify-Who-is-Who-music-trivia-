@@ -24,6 +24,8 @@ export class GameComponent implements OnInit {
 
   score: number = 0;
 
+  artists: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,19 +42,25 @@ export class GameComponent implements OnInit {
   }
 
   async setupGameLayout() {
+    await this.setUpArtists();
     await this.fetchSongs();
     this.generateSongButtons(this.numberOfSongs);
     this.generateArtistButtons(this.numberOfArtists);
   }
 
+  setUpArtists = async () => {
+    this.artists = await getArtists(
+      this.spotifyToken,
+      this.selectedGenre,
+      this.numberOfArtists,
+      "US"
+    );
+    console.log(this.artists);
+  };
+
   async fetchSongs(): Promise<void> {
     try {
-      const artist = await getArtist(
-        this.spotifyToken,
-        this.selectedGenre,
-        "US"
-      );
-      this.selectedArtistId = artist.id;
+      this.selectedArtistId = this.artists[0].id;
 
       const songs = await getSongs(
         this.spotifyToken,
@@ -84,24 +92,11 @@ export class GameComponent implements OnInit {
     const artistContainer = document.getElementById("artistContainer");
     if (artistContainer && this.songs.length > 0) {
       artistContainer.innerHTML = "";
-      const artists: string[] = [];
-
-      for (let i = 1; i <= numberOfArtists; i++) {
-        if (i === 1 && this.songs.length > 0) {
-          artists.push(this.songs[0].artists[0].name);
-        } else {
-          const artistName = await this.getArtistName(
-            this.spotifyToken,
-            this.selectedGenre,
-            "US"
-          );
-          artists.push(artistName);
-        }
-      }
-
-      const shuffledArtists = this.shuffleArray(artists);
-
-      shuffledArtists.forEach((artistName) => {
+      const shuffledArtists = this.shuffleArray(this.artists);
+      console.log(shuffledArtists);
+      shuffledArtists.forEach((artist) => {
+        console.log(artist);
+        const artistName = artist.name;
         const button = document.createElement("button");
         button.type = "button";
         button.className = "btn btn-success me-2";
@@ -162,8 +157,6 @@ export class GameComponent implements OnInit {
       } else {
         lost = true;
       }
-    } else {
-      this.score = 0;
     }
 
     console.log("Score:", this.score);
