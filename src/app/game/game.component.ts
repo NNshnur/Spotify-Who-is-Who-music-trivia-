@@ -14,6 +14,7 @@ import { GameService } from "src/services/game-service";
 export class GameComponent implements OnInit {
   numberOfArtists: number = 2;
   numberOfSongs: number = 1;
+
   selectedGenre: string = "";
   spotifyToken = "";
 
@@ -181,25 +182,29 @@ export class GameComponent implements OnInit {
   }
 
   playSong(songURL: string, index: number): void {
-    this.sounds.forEach((sound) => {
-      if (sound && sound.playing()) {
-        sound.pause();
-      }
-    });
+    if (this.sounds[index] && this.sounds[index].playing()) {
+      this.sounds[index].pause();
+    } else {
+      this.sounds.forEach((sound) => {
+        if (sound && sound.playing()) {
+          sound.pause();
+        }
+      });
 
-    this.sounds[index] = new Howl({
-      src: [songURL],
-      format: ["mp3"],
-    });
+      this.sounds[index] = new Howl({
+        src: [songURL],
+        format: ["mp3"],
+      });
 
-    this.sounds[index].on("play", () => {
-      const currentSong = this.songs[index]; // Get the currently playing song
-      console.log(
-        `Now playing: ${currentSong.name} by ${currentSong.artists[0].name}`
-      );
-    });
+      this.sounds[index].on("play", () => {
+        const currentSong = this.songs[index]; // Get the currently playing song
+        console.log(
+          `Now playing: ${currentSong.name} by ${currentSong.artists[0].name}`
+        );
+      });
 
-    this.sounds[index].play();
+      this.sounds[index].play();
+    }
   }
 
   async onSongButtonClick(index: number): Promise<void> {
@@ -208,8 +213,28 @@ export class GameComponent implements OnInit {
     }
 
     if (this.songs.length > index) {
-      const songURL = this.songs[index].preview_url;
-      this.playSong(songURL, index);
+      const songURL = this.songs[index];
+      if (songURL.preview_url) {
+        this.playSong(songURL.preview_url, index);
+      } else {
+        let nextSongIndex = index + 1;
+
+        while (nextSongIndex < this.songs.length) {
+          const nextSong = this.songs[nextSongIndex];
+          if (nextSong.preview_url) {
+            this.playSong(nextSong.preview_url, nextSongIndex);
+            return;
+          }
+          nextSongIndex++;
+        }
+        index = nextSongIndex;
+        console.log("No songs with preview URL available.");
+        alert(
+          "There are no songs with preview URL available, make a new selection with another genre."
+        );
+        const songURL = this.songs[index].preview_url;
+        this.playSong(songURL, index);
+      }
     }
   }
 

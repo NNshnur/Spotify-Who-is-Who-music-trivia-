@@ -8,7 +8,7 @@ const AUTH_ENDPOINT =
 const TOKEN_KEY = "whos-who-access-token";
 
 const PRIVATE_TOKEN =
-  "BQC_ZSqgigZR22o5Ll-kDGw7SpNNjKkPd_qjJkRjSjcn8ail-CNSvDpljG6tdM7EpvEoS_460TDfmbFia4XSAjpF03Q_dqLNdFjgrSmGwiMvpAWuJj8";
+  "BQAH4-Dl40Tt-kNVO3y0JpaQhONhpxeh2NTQ6sBFeWseRHrwYD07J5K_WUH7V5iUNgqM88zRF5FY1KmpQ_skvLJQC7MU5-T4crw1GbrWOUyiNabTG3E";
 
 @Component({
   selector: "app-home",
