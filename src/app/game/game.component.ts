@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
 
   async setupGameLayout() {
     await this.setUpArtists();
-    await this.fetchSongs();
+    await this.fetchSongs(0);
     this.generateSongButtons(this.numberOfSongs);
     this.generateArtistButtons(this.numberOfArtists);
   }
@@ -58,9 +58,9 @@ export class GameComponent implements OnInit {
     console.log(this.artists);
   };
 
-  async fetchSongs(): Promise<void> {
+  async fetchSongs(artistId: number = 0): Promise<void> {
     try {
-      this.selectedArtistId = this.artists[0].id;
+      this.selectedArtistId = this.artists[artistId].id;
 
       const songs = await getSongs(
         this.spotifyToken,
@@ -68,10 +68,31 @@ export class GameComponent implements OnInit {
         "US"
       );
       this.songs = songs.tracks;
+      console.log(this.songs);
     } catch (error) {
       console.error("Error fetching songs:", error);
     }
+    if (!this.validateSongUrls()) {
+      this.setupGameLayout();
+    }
   }
+
+  validateSongUrls = () => {
+    let totalUrls = 0;
+    this.songs.forEach((song) => {
+      if (song.preview_url) {
+        totalUrls++;
+      }
+    });
+    if (totalUrls < this.numberOfSongs) {
+      return false;
+    }
+    return true;
+  };
+
+  removeSongsWithoutUrl = () => {
+    this.songs = this.songs.filter((song) => song.preview_url);
+  };
 
   generateSongButtons(numberOfSongs: number) {
     const songContainer = document.getElementById("songContainer");
@@ -93,9 +114,7 @@ export class GameComponent implements OnInit {
     if (artistContainer && this.songs.length > 0) {
       artistContainer.innerHTML = "";
       const shuffledArtists = this.shuffleArray(this.artists);
-      console.log(shuffledArtists);
       shuffledArtists.forEach((artist) => {
-        console.log(artist);
         const artistName = artist.name;
         const button = document.createElement("button");
         button.type = "button";
