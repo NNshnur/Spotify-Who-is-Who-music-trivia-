@@ -17,7 +17,7 @@ export class GameComponent implements OnInit {
   numberOfArtists: number = 2; 
   numberOfSongs: number = 1;
   selectedGenre: string = '';
-  spotifyToken ='BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZrnEr7E4RTn2TZfHHW3NubNt_Tn9Rd3ZdOHzrVvckx3mZzb-SvVLvAtVwGQ';
+  spotifyToken ='BQAepT55HganzO5lIBdaMSFRF-1jDLD8Gjv4HIQ7kmt27HH3cZmbbPhkepCilEvHXcSuiCQN3gHX4WpcZXVoanQxxjXIj8bBn2XKwhKVNFRQOh6n30E';
 
   songs: any[] = [];
   selectedArtistId: any;
@@ -179,6 +179,7 @@ export class GameComponent implements OnInit {
     }
   }
 
+
   async onSongButtonClick(index: number): Promise<void> {
   
     if (this.songs.length === 0) {
@@ -187,10 +188,25 @@ export class GameComponent implements OnInit {
 
     
     if (this.songs.length > index) {
-      const songURL = this.songs[index].preview_url; 
-      this.playSong(songURL, index);
+      const songURL = this.songs[index];
+      if(songURL.preview_url) {
+        this.playSong(songURL.preview_url, index);
+      } else {
+        let nextSongIndex = index + 1;
+
+        while (nextSongIndex < this.songs.length) {
+          const nextSong = this.songs[nextSongIndex];
+                if (nextSong.preview_url) {
+                this.playSong(nextSong.preview_url, nextSongIndex);
+                return;
+        }
+        nextSongIndex++;
+      }
+      console.log('No songs with preview URL available.');
+      alert("There are no songs with preview URL available, make a new selection with another genre.")
     }
   }
+}
 
   selectBtnOption() : void {
   this.router.navigate(['/result']);
