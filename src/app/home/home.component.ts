@@ -6,6 +6,8 @@ const AUTH_ENDPOINT =
   "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
 const TOKEN_KEY = "whos-who-access-token";
 
+const PRIVATE_TOKEN = 'BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZrnEr7E4RTn2TZfHHW3NubNt_Tn9Rd3ZdOHzrVvckx3mZzb-SvVLvAtVwGQ'
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -31,8 +33,9 @@ export class HomeComponent implements OnInit {
       if (storedToken.expiration > Date.now()) {
         console.log("Token found in localstorage");
         this.authLoading = false;
-        this.token = storedToken.value;
-        this.loadGenres(storedToken.value);
+        // this.token = storedToken.value;
+        this.token = PRIVATE_TOKEN
+        this.loadGenres(PRIVATE_TOKEN);
         return;
       }
     }
@@ -44,8 +47,8 @@ export class HomeComponent implements OnInit {
       };
       localStorage.setItem(TOKEN_KEY, JSON.stringify(newToken));
       this.authLoading = false;
-      this.token = newToken.value;
-      this.loadGenres(newToken.value);
+      this.token = PRIVATE_TOKEN;
+      this.loadGenres(PRIVATE_TOKEN);
     });
   }
 
@@ -85,7 +88,14 @@ export class HomeComponent implements OnInit {
 
   startGame() {
     // TODO: replace this with an actual url
-    this.router.navigateByUrl("");
+    // this.router.navigateByUrl("");
+    this.router.navigate(['/game'], {
+      queryParams: {
+        artists: this.numberOfArtists,
+        songs: this.numberOfSongs,
+        genre: this.selectedGenre
+      }
+    })
   }
 
   retrieveSettingsFromLocalStorage() {
@@ -99,3 +109,4 @@ export class HomeComponent implements OnInit {
     this.selectedGenre = savedGenre ? savedGenre : this.selectedGenre;
   }
 }
+
