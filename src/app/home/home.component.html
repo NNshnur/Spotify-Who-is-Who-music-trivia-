@@ -1,19 +1,21 @@
-<div class="container mt-5 text-center">
-  <br><br><br><br><br>
-  <h1>Spotify WHO is WHO</h1>
-  <br>
-  <h4><em>Welcome to "Artist Guess," the ultimate music trivia game where 
-    your knowledge of artists and songs is put to the test! :) Are you ready to prove 
-    your music expertise? </em></h4> 
-</div>
+<div class="outer  vh-100" > 
+<br> <br> <br> 
+<div class="container mt-5 text-center inner">
+ 
+  <h1>SPOTIFY <span class="span">WHO</span> is <span class="span">WHO</span></h1>
+  <br> 
+  <h4 class="text-right animated-text">Let's embark on this thrilling music trivia adventure! To get started, 
+    buckle up your musical knowledge seatbelt and let's dive into the world of artists and songs. Whether you're 
+    a music aficionado or just here for the fun, it's going to be an exciting journey! Are you ready to play? <br> </h4> 
 
-<div class="container align-items-center justify-content-center vh-100">
+
+<div class="container align-items-center justify-content-center">
   <div *ngIf="authLoading || configLoading" class="text-center mt-5">Loading...</div>
   <div *ngIf="!authLoading && !configLoading" class="mt-5">
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label for="genre" class="text-left"><strong>Genre</strong></label>
+          <label for="genre" class="text-left"><strong><span class="span">GENRE</span></strong></label>
           <select id="genre" class="form-control" [(ngModel)]="selectedGenre" (ngModelChange)="setGenre($event)">
             <option value="" disabled selected>Select Genre</option>
             <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
@@ -24,8 +26,8 @@
     <br>
     <div class="row">
       <div class="col">
-        <div class="form-group">
-          <label for="numberOfArtists" class="text-left"><strong>Artists</strong></label>
+        <div class="form-group"> 
+          <label for="numberOfArtists" class="text-left"><strong><span class="span">ARTISTS</span></strong></label>
           <select id="numberOfArtists" class="form-control" [(ngModel)]="numberOfArtists" (ngModelChange)="setNumberOfArtists($event)">
             <option value="" disabled selected>Select Number of Artists</option>
             <option *ngFor="let item of [].constructor(3); let i = index" [value]="i + 2">{{ i + 2 }}</option>
@@ -37,20 +39,25 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label for="numberOfSongs" class="text-left"><strong>Songs</strong></label> 
+          <label for="numberOfSongs" class="text-left"><strong><span class="span">SONGS</span></strong></label> 
           <select id="numberOfSongs" class="form-control" [(ngModel)]="numberOfSongs" (ngModelChange)="setNumberOfSongs($event)">
             <option value="" disabled selected>Select Number of Songs</option>
             <option *ngFor="let item of [].constructor(3); let i = index" [value]="i + 1">{{ i + 1 }}</option>
           </select>
         </div>
       </div>
-    </div>
+    </div> 
     <br>
 
     <div class="row">
       <div class="col d-flex justify-content-center">
-        <button class="btn btn-success longer-button" (click)="submitAndStartGame()">Submit</button>
+        <button class="btn btn-success longer-button" (click)="submitAndStartGame()">Submit</button> <br>
       </div>
+     
     </div>
+  
   </div>
+</div>
+</div>
+
 </div>

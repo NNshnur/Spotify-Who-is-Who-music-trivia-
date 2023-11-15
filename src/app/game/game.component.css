@@ -1,0 +1,30 @@
+.outer {
+    background-color: #191414;
+    position: relative;
+    padding-bottom: 9%;
+    padding-top: 3%;
+
+  }
+  
+  .inner {
+    background-color: #171810;
+    border: 7px solid;
+    border-image: linear-gradient(to right, #1DB954, #40407e);
+    border-image-slice: 1;
+    color: aliceblue;
+    position: relative;
+    padding-bottom: 7%;
+  }
+
+.span {
+    color: #1DB954;
+}
+
+#artistContainer{
+    padding-bottom: 5%;
+   
+}
+
+
+
+
