@@ -1,12 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import fetchFromSpotify, { request } from "../../services/api";
+import { GameService } from "src/services/game-service";
 import { Router } from "@angular/router";
 
 const AUTH_ENDPOINT =
   "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
 const TOKEN_KEY = "whos-who-access-token";
 
-const PRIVATE_TOKEN = 'BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZrnEr7E4RTn2TZfHHW3NubNt_Tn9Rd3ZdOHzrVvckx3mZzb-SvVLvAtVwGQ'
+const PRIVATE_TOKEN =
+  "BQC_ZSqgigZR22o5Ll-kDGw7SpNNjKkPd_qjJkRjSjcn8ail-CNSvDpljG6tdM7EpvEoS_460TDfmbFia4XSAjpF03Q_dqLNdFjgrSmGwiMvpAWuJj8";
 
 @Component({
   selector: "app-home",
@@ -14,7 +16,7 @@ const PRIVATE_TOKEN = 'BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZ
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private gameService: GameService) {}
 
   genres: String[] = ["House", "Alternative", "J-Rock", "R&B"];
   selectedGenre: string = "";
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit {
         console.log("Token found in localstorage");
         this.authLoading = false;
         // this.token = storedToken.value;
-        this.token = PRIVATE_TOKEN
+        this.token = PRIVATE_TOKEN;
         this.loadGenres(PRIVATE_TOKEN);
         return;
       }
@@ -84,18 +86,16 @@ export class HomeComponent implements OnInit {
     localStorage.setItem("numberOfArtists", this.numberOfArtists.toString());
     localStorage.setItem("numberOfSongs", this.numberOfSongs.toString());
     localStorage.setItem("selectedGenre", this.selectedGenre.toString());
+    this.gameService.setNumberOfArtists(this.numberOfArtists);
+    this.gameService.setNumberOfSongs(this.numberOfSongs);
+    this.gameService.setSelectedGenre(this.selectedGenre);
+    this.gameService.setToken(PRIVATE_TOKEN);
   }
 
   startGame() {
     // TODO: replace this with an actual url
     // this.router.navigateByUrl("");
-    this.router.navigate(['/game'], {
-      queryParams: {
-        artists: this.numberOfArtists,
-        songs: this.numberOfSongs,
-        genre: this.selectedGenre
-      }
-    })
+    this.router.navigate(["/game"]);
   }
 
   retrieveSettingsFromLocalStorage() {
@@ -109,4 +109,3 @@ export class HomeComponent implements OnInit {
     this.selectedGenre = savedGenre ? savedGenre : this.selectedGenre;
   }
 }
-
