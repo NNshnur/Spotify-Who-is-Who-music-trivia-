@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { getArtist, getSongs } from 'src/services/spotify-service';
+import { getArtist, getSongs, getArtists } from 'src/services/spotify-service';
 import { Howl } from 'howler'
+import { Router } from '@angular/router';
+import { ScoreService } from 'src/services/score-service';
 
 
 @Component({ 
@@ -15,13 +17,15 @@ export class GameComponent implements OnInit {
   numberOfArtists: number = 2; 
   numberOfSongs: number = 1;
   selectedGenre: string = '';
-  spotifyToken ='BQAyM7GaTbMG-eR1WMd6EAfclQvBj1MYhamMJcFIpjFGshZsWvFKnsC4S3Thc-zmH02w0fOFBFNkXMgEZRgtLm8ltXx1IcoyIiMih8IUeKku1BoO2-o';
+  spotifyToken ='BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZrnEr7E4RTn2TZfHHW3NubNt_Tn9Rd3ZdOHzrVvckx3mZzb-SvVLvAtVwGQ';
 
   songs: any[] = [];
   selectedArtistId: any;
   sounds: any[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  score: number = 0;
+
+  constructor(private route: ActivatedRoute, private router: Router, private scoreService: ScoreService) {}
 
   
   ngOnInit(): void {
@@ -32,6 +36,7 @@ export class GameComponent implements OnInit {
 
       this.setupGameLayout();
     });
+   
   }
 
   async setupGameLayout() {
@@ -49,7 +54,6 @@ export class GameComponent implements OnInit {
       this.songs = songs.tracks; 
     } catch (error) {
       console.error('Error fetching songs:', error);
-      // will hanle later, just want to make sure first that it works
     }
   }
 
@@ -71,36 +75,89 @@ export class GameComponent implements OnInit {
 
   async generateArtistButtons(numberOfArtists: number) {
     const artistContainer = document.getElementById('artistContainer');
-    if (artistContainer) {
+    if (artistContainer && this.songs.length > 0) {
       artistContainer.innerHTML = '';
       const artists: string[] = [];
   
       for (let i = 1; i <= numberOfArtists; i++) {
         if (i === 1 && this.songs.length > 0) {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'btn btn-success me-2';
-          button.textContent = this.songs[0].artists[0].name;
-          button.addEventListener('click', () => this.selectBtnOption());
-          artistContainer.appendChild(button);
-  
           artists.push(this.songs[0].artists[0].name);
         } else {
-        
-          const randomArtist = 'Random Artist ' + i;
-          artists.push(randomArtist);
-  
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'btn btn-success me-2';
-          button.textContent = randomArtist;
-          button.addEventListener('click', () => this.selectBtnOption());
-          artistContainer.appendChild(button);
+          const artistName = await this.getArtistName(this.spotifyToken, this.selectedGenre, 'US');
+          artists.push(artistName);
         }
       }
+  
+      const shuffledArtists = this.shuffleArray(artists);
+  
+      shuffledArtists.forEach(artistName => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-success me-2';
+        button.textContent = artistName;
+        button.addEventListener('click', () => this.checkArtist(artistName)); 
+        artistContainer.appendChild(button);
+      });
     }
   }
 
+  shuffleArray(array: any[]) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+  
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+ 
+   getArtistName = async (token: string, genre: string, market: string) => {
+    try {
+      const response = await getArtists(token, genre, 1, market);
+      if (response && response.length > 0) {
+        return response[0].name; 
+      } else {
+        throw new Error('No artist found');
+      }
+    } catch (error) {
+      console.error('Error fetching artist name:', error);
+      throw error;
+    }
+  };
+
+  checkArtist(artistName: string): void {
+    const currentlyPlayingIndex = this.sounds.findIndex(sound => sound && sound.playing && sound.play());
+  
+    console.log('Currently playing index:', currentlyPlayingIndex);
+    console.log('Selected artist name:', artistName);
+  
+    if (currentlyPlayingIndex !== -1) {
+      const currentlyPlayingSong = this.songs[currentlyPlayingIndex];
+      if (currentlyPlayingSong && currentlyPlayingSong.artists[0].name === artistName) {
+        console.log("Congrats");
+        this.score = 100; 
+      } else {
+        this.score = 0; 
+      }
+    } else {
+      this.score = 0;
+    }
+  
+    console.log("Score:", this.score);
+    this.scoreService.setScore(this.score);
+
+    this.sounds.forEach(sound => {
+      if (sound && sound.playing()) {
+        sound.pause();
+      }
+    });
+    this.router.navigate(['/result']);
+  }
 
   playSong(songURL: string, index: number): void {
     if (this.sounds[index] && this.sounds[index].playing()) {
@@ -135,8 +192,9 @@ export class GameComponent implements OnInit {
     }
   }
 
-  selectBtnOption() : void {}
-
+  selectBtnOption() : void {
+  this.router.navigate(['/result']);
+  }
 }
 
  

@@ -6,7 +6,7 @@ const AUTH_ENDPOINT =
   "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
 const TOKEN_KEY = "whos-who-access-token";
 
-const PRIVATE_TOKEN = 'BQAyM7GaTbMG-eR1WMd6EAfclQvBj1MYhamMJcFIpjFGshZsWvFKnsC4S3Thc-zmH02w0fOFBFNkXMgEZRgtLm8ltXx1IcoyIiMih8IUeKku1BoO2-o'
+const PRIVATE_TOKEN = 'BQDUT2h5L55wTHorvrew1WWoGpYBiIldsduY90FlASoMEf17o53-gtUYZrnEr7E4RTn2TZfHHW3NubNt_Tn9Rd3ZdOHzrVvckx3mZzb-SvVLvAtVwGQ'
 
 @Component({
   selector: "app-home",

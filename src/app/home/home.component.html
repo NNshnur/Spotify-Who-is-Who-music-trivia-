@@ -1,58 +1,10 @@
-<!-- <div *ngIf="authLoading || configLoading">Loading...</div>
-<div *ngIf="!authLoading && !configLoading">
-  Genre
-  <select [(ngModel)]="selectedGenre" (ngModelChange)="setGenre($event)">
-    <option value="" disabled>Genre</option>
-    <option [value]="genre" *ngFor="let genre of genres">
-      {{ genre }}
-    </option>
-  </select>
-
-  <br />
-
-  Artists
-  <select
-    [(ngModel)]="numberOfArtists"
-    (ngModelChange)="setNumberOfArtists($event)"
-  >
-    <option value="" disabled>Number of Artists</option>
-    <option
-      [value]="i + 2"
-      *ngFor="let item of [].constructor(3); let i = index"
-    >
-      {{ i + 2 }}
-    </option>
-  </select>
-
-  <br />
-
-  Songs
-  <select
-    [(ngModel)]="numberOfSongs"
-    (ngModelChange)="setNumberOfSongs($event)"
-  >
-    <option value="" disabled>Number of Songs</option>
-    <option
-      [value]="i + 1"
-      *ngFor="let item of [].constructor(3); let i = index"
-    >
-      {{ i + 1 }}
-    </option>
-  </select>
-
-  <br />
-
-  <button (click)="submitAndStartGame()">Submit</button>
-</div> -->
-
-
 <div class="container mt-5 text-center">
   <br><br><br><br><br>
   <h1>Spotify WHO is WHO</h1>
   <br>
-  <h3><em>Welcome to "Artist Guess," the ultimate music trivia game where 
-    your knowledge of artists and songs is put to the test! Are you ready to prove 
-    your music expertise?</em></h3>
+  <h4><em>Welcome to "Artist Guess," the ultimate music trivia game where 
+    your knowledge of artists and songs is put to the test! :) Are you ready to prove 
+    your music expertise? </em></h4> 
 </div>
 
 <div class="container align-items-center justify-content-center vh-100">

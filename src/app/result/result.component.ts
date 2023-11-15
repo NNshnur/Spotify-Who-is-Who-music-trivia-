@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ScoreService } from 'src/services/score-service';
 
 @Component({
   selector: 'app-result',
@@ -8,22 +10,25 @@ import { Component, OnInit } from '@angular/core';
 export class ResultComponent implements OnInit {
   score : number = 0;
 
-  constructor() { }
+  constructor(private router: Router, private scoreService: ScoreService) { }
 
   ngOnInit(): void {
     this.getScore();
   }
 
   getScore() : void {
-
+    this.score = this.scoreService.getScore();
   }
 
-  selectBtnOption() : void {
-    // if(option === 'Home') {
-    //   console.log("Home btn was pressed")
-    // } else if (option === 'Play Again') {
-    //   console.log("Play again was pressed")
-    // }
+  goToHomePage(): void {
+    this.router.navigate(['/']);
   }
 
+  playAgain(): void {
+    this.score =0;
+    this.scoreService.setScore(this.score);
+    this.router.navigate(['/game']); 
+  }
 }
+
+

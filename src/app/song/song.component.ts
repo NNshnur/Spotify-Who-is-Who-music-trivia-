@@ -30,17 +30,18 @@ export class SongComponent implements OnInit {
     }
   }
 
-  pauseSong() : void {
-    if(this.sound && this.sound.playing()) {
-      this.sound.pause();
-    }
-  }
 
-  stopSong() : void {
-    if(this.sound) {
-      this.sound.stop();
-    }
-  }
+  // pauseSong() : void {
+  //   if(this.sound && this.sound.playing()) {
+  //     this.sound.pause();
+  //   }
+  // }
+
+  // stopSong() : void {
+  //   if(this.sound) {
+  //     this.sound.stop();
+  //   }
+  // }
 
   loadSong() : void {}
 
