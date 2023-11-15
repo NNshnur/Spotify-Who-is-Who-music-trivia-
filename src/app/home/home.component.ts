@@ -2,13 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import fetchFromSpotify, { request } from "../../services/api";
 import { GameService } from "src/services/game-service";
 import { Router } from "@angular/router";
+import { client_id, client_secret } from "src/app/config";
 
-const AUTH_ENDPOINT =
-  "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
+const AUTH_ENDPOINT = "https://accounts.spotify.com/api/token";
 const TOKEN_KEY = "whos-who-access-token";
-
-const PRIVATE_TOKEN =
-  "BQAH4-Dl40Tt-kNVO3y0JpaQhONhpxeh2NTQ6sBFeWseRHrwYD07J5K_WUH7V5iUNgqM88zRF5FY1KmpQ_skvLJQC7MU5-T4crw1GbrWOUyiNabTG3E";
 
 @Component({
   selector: "app-home",
@@ -35,22 +32,29 @@ export class HomeComponent implements OnInit {
       if (storedToken.expiration > Date.now()) {
         console.log("Token found in localstorage");
         this.authLoading = false;
-        // this.token = storedToken.value;
-        this.token = PRIVATE_TOKEN;
-        this.loadGenres(PRIVATE_TOKEN);
+        this.token = storedToken.value;
+        this.loadGenres(storedToken.value);
         return;
       }
     }
     console.log("Sending request to AWS endpoint");
-    request(AUTH_ENDPOINT).then(({ access_token, expires_in }) => {
+    request(AUTH_ENDPOINT, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      method: "POST",
+      body: new URLSearchParams({
+        grant_type: "client_credentials",
+        client_id: client_id,
+        client_secret: client_secret,
+      }),
+    }).then(({ access_token, expires_in }) => {
       const newToken = {
         value: access_token,
         expiration: Date.now() + (expires_in - 20) * 1000,
       };
       localStorage.setItem(TOKEN_KEY, JSON.stringify(newToken));
       this.authLoading = false;
-      this.token = PRIVATE_TOKEN;
-      this.loadGenres(PRIVATE_TOKEN);
+      this.token = newToken.value;
+      this.loadGenres(newToken.value);
     });
   }
 
@@ -89,7 +93,7 @@ export class HomeComponent implements OnInit {
     this.gameService.setNumberOfArtists(this.numberOfArtists);
     this.gameService.setNumberOfSongs(this.numberOfSongs);
     this.gameService.setSelectedGenre(this.selectedGenre);
-    this.gameService.setToken(PRIVATE_TOKEN);
+    this.gameService.setToken(this.token.toString());
   }
 
   startGame() {
