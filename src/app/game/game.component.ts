@@ -43,7 +43,7 @@ export class GameComponent implements OnInit {
 
   async setupGameLayout() {
     await this.setUpArtists();
-    await this.fetchSongs(0);
+    await this.fetchSongs();
     this.generateSongButtons(this.numberOfSongs);
     this.generateArtistButtons(this.numberOfArtists);
   }
@@ -58,9 +58,9 @@ export class GameComponent implements OnInit {
     console.log(this.artists);
   };
 
-  async fetchSongs(artistId: number = 0): Promise<void> {
+  async fetchSongs(): Promise<void> {
     try {
-      this.selectedArtistId = this.artists[artistId].id;
+      this.selectedArtistId = this.artists[0].id;
 
       const songs = await getSongs(
         this.spotifyToken,
@@ -95,7 +95,6 @@ export class GameComponent implements OnInit {
   removeSongsWithoutUrl = () => {
     this.songs = this.songs.filter((song) => song.preview_url);
   };
-
 
   generateSongButtons(numberOfSongs: number): void {
     const songContainer = document.getElementById("songContainer");
