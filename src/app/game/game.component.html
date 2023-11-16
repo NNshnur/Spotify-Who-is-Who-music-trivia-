@@ -6,16 +6,12 @@
           <app-song #songComponent></app-song>
           <!-- song buttons -->
           <div class="container" id="songContainer">
-              <button *ngFor="let song of songs; let i = index" class="song-btn" (click)="onSongButtonClick(i)">
-                  {{ song.name }}
-              </button>
+           
           </div>
           <br><br><br>
           <!-- artist buttons -->
           <div class="container" id="artistContainer">
-              <button *ngFor="let artist of artists; let i = index" class="artist-btn" (click)="checkArtist(artist.name)">
-                  {{ artist.name }}
-              </button>
+           
           </div>
       </div>
   </div>
