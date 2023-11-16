@@ -74,9 +74,9 @@ export class GameComponent implements OnInit {
     }
     if (!this.validateSongUrls()) {
       this.setupGameLayout();
+    
     }
     this.removeSongsWithoutUrl();
-    console.log(this.songs);
   }
 
   validateSongUrls = () => {
@@ -104,12 +104,12 @@ export class GameComponent implements OnInit {
       for (let i = 0; i < numberOfSongs; i++) {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "btn btn-secondary me-2";
-        button.innerHTML = `<i class="bi bi-play-circle-fill"></i> Song ${
-          i + 1
-        }`;
+        button.style.borderRadius = "25px"; 
+        button.className = "btn btn-secondary me-2 custom-btn";
+        button.innerHTML = `<i class="bi bi-play-circle-fill"></i> Song ${i+1}`;
         button.addEventListener("click", () => this.onSongButtonClick(i));
         songContainer.appendChild(button);
+
       }
     }
   }
@@ -123,7 +123,20 @@ export class GameComponent implements OnInit {
         const artistName = artist.name;
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "btn btn-success me-2";
+        button.style.backgroundColor = "#1DB954"; 
+        button.style.borderColor = "#1DB954"; 
+        button.style.color = "white"; 
+        button.style.borderRadius = "25px";
+        // this is for hover effect
+        button.addEventListener("mouseover", function() {
+          button.style.backgroundColor = "#40407e"; 
+        });
+
+        button.addEventListener("mouseout", function() {
+          button.style.backgroundColor = "#1DB954"; 
+        });
+
+        button.className = "btn btn-success me-2 green-custom-btn";
         button.textContent = artistName;
         button.addEventListener("click", () => this.checkArtist(artistName));
         artistContainer.appendChild(button);
@@ -218,6 +231,7 @@ export class GameComponent implements OnInit {
         console.log(
           `Now playing: ${currentSong.name} by ${currentSong.artists[0].name}`
         );
+
       });
 
       this.sounds[index].play();
@@ -254,6 +268,8 @@ export class GameComponent implements OnInit {
       }
     }
   }
+
+
 
   selectBtnOption(): void {
     this.router.navigate(["/result"]);

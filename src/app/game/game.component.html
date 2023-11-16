@@ -1,25 +1,45 @@
-<section> <div class="container mt-5 text-center align-items-center justify-content-center vh-100">
-    <br> <br> <br> <br> <br> <br> <br> <br>
-    <h1>Spotify WHO is WHO</h1>
+<!-- <div class="outer" > 
+<br><br>
+    <div class="container mt-5 text-center inner align-items-center justify-content-center">
+      <br> <br>
+      <h1>Spotify <span class="span">WHO</span> is <span class="span">WHO</span></h1>
+      <br> <br>
 
-<br> <br>
-
-<section>
-    <div class="container mt-5 text-center align-items-center justify-content-center vh-100">
-     <app-song #songComponent></app-song>
-      <!-- song buttons  -->
-      <div id="songContainer">
-        
-      </div>
+      <div class="container mt-5 text-center align-items-center justify-content-center">
+        <app-song #songComponent></app-song> -->
+        <!-- song buttons  -->
+        <!-- <div class="container" id="songContainer"> -->
+          <!-- Your song buttons -->
+        <!-- </div>
+        <br> -->
+        <!-- artist buttons -->
+        <!-- <div class="container" id="artistContainer"> -->
+          <!-- Your artist buttons -->
+        <!-- </div>
       
-      <br>
-      
-      <!-- artist buttons -->
-      <div id="artistContainer">
-        
-      </div>
     </div>
-  </section>
-</div>
-</section>
+  </div>
+</div> -->
 
+<div class="outer"><br><br><br>
+  <div class="container mt-5 text-center inner align-items-center justify-content-center"><br><br><br>
+      <h1>SPOTIFY <span class="span">WHO</span> is <span class="span">WHO</span></h1><br><br><br>
+     
+      <div class="container mt-5 text-center align-items-center justify-content-center">
+          <app-song #songComponent></app-song>
+          <!-- song buttons -->
+          <div class="container" id="songContainer">
+              <button *ngFor="let song of songs; let i = index" class="song-btn" (click)="onSongButtonClick(i)">
+                  {{ song.name }}
+              </button>
+          </div>
+          <br><br><br>
+          <!-- artist buttons -->
+          <div class="container" id="artistContainer">
+              <button *ngFor="let artist of artists; let i = index" class="artist-btn" (click)="checkArtist(artist.name)">
+                  {{ artist.name }}
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
