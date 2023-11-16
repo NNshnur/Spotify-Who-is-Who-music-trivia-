@@ -96,20 +96,55 @@ export class GameComponent implements OnInit {
     this.songs = this.songs.filter((song) => song.preview_url);
   };
 
-  generateSongButtons(numberOfSongs: number) {
-    console.log(this.songs);
+  generateSongButtons(numberOfSongs: number): void {
     const songContainer = document.getElementById("songContainer");
     if (songContainer) {
       songContainer.innerHTML = "";
+      const iconSize = 60; 
+      const marginBetweenIcons = 15; 
+  
       for (let i = 0; i < numberOfSongs; i++) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.style.borderRadius = "25px"; 
-        button.className = "btn btn-secondary me-2 custom-btn";
-        button.innerHTML = `<i class="bi bi-play-circle-fill"></i> Song ${i+1}`;
-        button.addEventListener("click", () => this.onSongButtonClick(i));
-        songContainer.appendChild(button);
-
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", `${iconSize}px`);
+        svg.setAttribute("height", `${iconSize}px`);
+        svg.style.cursor = "pointer";
+        svg.style.margin = `${marginBetweenIcons}px`;
+  
+        svg.classList.add("icon");
+  
+      
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", `${iconSize / 2}`);
+        circle.setAttribute("cy", `${iconSize / 2}`);
+        circle.setAttribute("r", `${iconSize / 2}`);
+        circle.setAttribute("fill", "url(#gradient)"); 
+  
+        // Define the gradient
+        const gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+        gradient.setAttribute("id", "gradient");
+        gradient.innerHTML = `
+          <stop offset="0%" stop-color="#1DB954"/>
+          <stop offset="100%" stop-color="#40407e"/>
+        `;
+  
+        // Create the image element for the play icon
+        const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+        image.setAttribute("href", "/assets/play-circle.svg"); 
+        image.setAttribute("width", `${iconSize * 0.6}`); 
+        image.setAttribute("height", `${iconSize * 0.6}`);
+        image.setAttribute("x", `${iconSize * 0.2}`); 
+        image.setAttribute("y", `${iconSize * 0.2}`);
+  
+        // Add click event listener
+        svg.addEventListener("click", () => this.onSongButtonClick(i));
+  
+        // Append elements to the SVG
+        svg.appendChild(circle);
+        svg.appendChild(gradient);
+        svg.appendChild(image);
+  
+        // Append the SVG to the container
+        songContainer.appendChild(svg);
       }
     }
   }
@@ -242,34 +277,62 @@ export class GameComponent implements OnInit {
     if (this.songs.length === 0) {
       await this.fetchSongs();
     }
-
+  
     if (this.songs.length > index) {
       const songURL = this.songs[index];
       if (songURL.preview_url) {
-        this.playSong(songURL.preview_url, index);
-      } else {
-        let nextSongIndex = index + 1;
-
-        while (nextSongIndex < this.songs.length) {
-          const nextSong = this.songs[nextSongIndex];
-          if (nextSong.preview_url) {
-            this.playSong(nextSong.preview_url, nextSongIndex);
-            return;
-          }
-          nextSongIndex++;
+        if (this.sounds[index] && this.sounds[index].playing()) {
+          
+          this.sounds[index].pause();
+          this.updatePlayButton(index);
+        } else {
+         
+          this.playSong(songURL.preview_url, index);
+          this.updateStopButton(index); 
         }
-        index = nextSongIndex;
-        console.log("No songs with preview URL available.");
-        alert(
-          "There are no songs with preview URL available, make a new selection with another genre."
-        );
-        const songURL = this.songs[index].preview_url;
-        this.playSong(songURL, index);
-      }
-    }
-  }
+      } else {
+              let nextSongIndex = index + 1;
+      
+              while (nextSongIndex < this.songs.length) {
+                const nextSong = this.songs[nextSongIndex];
+                if (nextSong.preview_url) {
+                  this.playSong(nextSong.preview_url, nextSongIndex);
+                  return;
+                }
+                nextSongIndex++;
+              }
+              index = nextSongIndex;
+              console.log("No songs with preview URL available.");
+              alert(
+                "There are no songs with preview URL available, make a new selection with another genre."
+              );
+              const songURL = this.songs[index].preview_url;
+              this.playSong(songURL, index);
+            }
+          }
+        }
 
-
+        updatePlayButton(index: number): void {
+          const songContainer = document.getElementById("songContainer");
+          if (songContainer) {
+            const svgElement = songContainer.childNodes[index] as SVGSVGElement;
+            if (svgElement) {
+              const imageElement = svgElement.getElementsByTagName("image")[0];
+              imageElement.setAttribute("href", "/assets/play-circle.svg");
+            }
+          }
+        }
+        
+        updateStopButton(index: number): void {
+          const songContainer = document.getElementById("songContainer");
+          if (songContainer) {
+            const svgElement = songContainer.childNodes[index] as SVGSVGElement;
+            if (svgElement) {
+              const imageElement = svgElement.getElementsByTagName("image")[0];
+              imageElement.setAttribute("href", "/assets/stop.svg"); 
+            }
+          }
+        }
 
   selectBtnOption(): void {
     this.router.navigate(["/result"]);
