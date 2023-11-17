@@ -1,33 +1,113 @@
-# Assessment 2
+<a name="readme-top"></a>
 
-# Overview
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="src/assets/title.PNG" alt="Logo" width="300px">
+  </a>
+<h3 align="center">Spotify Who is Who</h3>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+
+## About The Project
+
+[![Spotify Who is Who Title][title]](https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1)
 
 For this assessment, students are tasked with developing a front-end Angular application that interfaces with [Spotify's API](https://developer.spotify.com/) in order to get genres, artists, and **sample** songs. The user will then be able to listen to songs and guess which artist created it.
 
-## Requirements
+### Built With
 
-##### The _Business Requirements_ are located in the [REQUIREMENTS.md](REQUIREMENTS.md) file.
+- [![Node.js][Node.js]][Node.js-url]
+- [![Angular][Angular.io]][Angular-url]
+- [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+- [![Spotify][Spotify API]][Spotify-url]
 
-The specification for this assessment is written in a way that resembles the kind of informal requirements document you may recieve on a client site or the level of detail you may have after a few meetings with stakeholders/product owners. It is written from a non-technical viewpoint with no regards for the technical requirements that the project may incur.
+<!-- GETTING STARTED -->
 
-When given large problems like this, it is easy to try to start coding immediately. This may not be the best approach to solving large problems - it can often make you waste a lot of time because you'll start solving problems before you really know what problems you need to solve. In order to get a sense for what is required technically, it is recommended that you first go through the **_Business Requirements_** thoroughly and try to envision the end goal from a business point of view. After that, go through it again from a technical perspective and begin mapping out mentally and physically (on paper if you'd like) the things you'll need to use and understand. For this project, these things may include: Missing requirements that you need to clarify, Spotify endpoints, A skeleton/wireframe of your components, routes, required business logic for selecting random artists within a genre, how to play a song in the browser, and so on. Note that these things don't require you to start coding - they require you to **research** and **read documentation**.
+## Getting Started
 
----
+To get a local copy up and running follow these steps.
 
-## Technical Guidance
+### Prerequisites
 
-##### The following will be an unorganized collection of technical information that could be helpful for this assessment.
+- [Node.js, npm](https://nodejs.org/)
 
-When debugging or trying to solve problems within the `Angular` and `TypeScript` ecosystem, it will be helpful to include `angular` or `typescript` in your google searches. For example, searching for `web playback typescript` gives me [`howler.js`](https://howlerjs.com/) which seems useful for playing audio. Learning how to _google well_ is one of the most important skills to hone as a developer - especially when dealing with a quickly changing ecosystem.
+- [Angular](https://angular.io/guide/setup-local)
 
-When getting a `track` from Spotify's API, it gives you a `preview_url` which will be needed to play a **sample** for a given song.
+  ```sh
+  npm install -g @angular/cli
+  ```
 
-To simplify authenticating with Spotify's API, a skeleton is given which calls a service in the cloud to get a `spotify_access_token`. An example request using this token is provided in the project.
+- [Spotify Developer Account and App](https://developer.spotify.com/documentation/web-api/concepts/apps)
 
-`services/api.ts` has been provided as a convenience wrapper around `fetch`
+### Installation
 
-The code in the `services/api.ts` file should not need modification. If you feel that you need to modify it, please speak with an instructor about it first.
+1. Create an application on Spotify
+2. Clone the repo
 
-URL encoding converts characters into a format that can be transmitted over the Internet. The url encoding for a 'space' character is '%20'.
+   ```sh
+   git clone https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1
+   ```
 
-This assessment is large and you should use your time wisely. UI design and styling should be your LAST priority. Get the majority of the functionality in the application built along with a basic minimal wireframe of your components. Once you've done that and it _works_, begin thinking about a minimal and clean UI. A business/product owner/stakeholder would much rather have something that doesn't look pretty, but works, than have something that looks great but doesn't do anything.
+3. Install NPM packages
+
+   ```sh
+   npm install
+   ```
+
+4. Enter your Client ID and Client Secret in `src/app/config.ts`
+
+   ```js
+   export const client_id = "YOUR_CLIENT_ID_HERE";
+   export const client_secret = "YOUR_CLIENT_SECRET_HERE";
+   ```
+
+5. Run the project
+   ```sh
+   ng serve
+   ```
+
+<!-- CONTACT -->
+
+## Contact
+
+Mika Nelson - mika.nelson@protonmail.com
+
+Natalia Shnur - nataliashnur@gmail.com
+
+Project Link: [https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1](https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[Node.js]: https://img.shields.io/badge/node.js-233056?style=for-the-badge&logo=nodedotjs&logoColor=5aaa46
+[Node.js-url]: https://nodejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[Spotify API]: https://img.shields.io/badge/spotify-212121?style=for-the-badge&logo=spotify&logoColor=1ed760
+[Spotify-url]: https://developer.spotify.com/
+[title]: src/assets/game.PNG
