@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="src/assets/title.png" alt="Logo" width="300px">
+    <img src="src/assets/title.PNG" alt="Logo" width="300px">
   </a>
 <h3 align="center">Spotify Who is Who</h3>
 </div>
@@ -109,4 +109,4 @@ Project Link: [https://github.com/fasttrackd-student-work/angular-whos-who-sprin
 [Bootstrap-url]: https://getbootstrap.com
 [Spotify API]: https://img.shields.io/badge/spotify-212121?style=for-the-badge&logo=spotify&logoColor=1ed760
 [Spotify-url]: https://developer.spotify.com/
-[title]: src/assets/game.png
+[title]: src/assets/game.PNG
