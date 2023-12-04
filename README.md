@@ -94,11 +94,10 @@ To get a local copy up and running follow these steps.
 
 ## Contact
 
-Mika Nelson - mika.nelson@protonmail.com
-
 Natalia Shnur - nataliashnur@gmail.com
 
-Project Link: [https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1](https://github.com/fasttrackd-student-work/angular-whos-who-sprint-09-2023-assessment-2-team-1-1)
+Mika Nelson - mika.nelson@protonmail.com
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
